@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-configmap
+  namespace: default
+data:
+  mongo-uri: mongodb+srv://karanbhatia507:48aI7OQb2JprRWpB@nagp-cluster.ekyp29h.mongodb.net/?retryWrites=true&w=majority&appName=Nagp-cluster

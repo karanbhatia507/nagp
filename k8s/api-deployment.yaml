@@ -14,12 +14,12 @@ spec:
     spec:
       containers:
         - name: service-api
-          image: karanbht/nagp-service-api_v3
+          image: karanbht/nagp-assignment
           ports:
             - containerPort: 8000
           env:
-            - name: DATABASE_URL
+            - name: MONGO_URI
               valueFrom:
                 configMapKeyRef:
-                  name: secret
+                  name: api-configmap
                   key: mongo-uri

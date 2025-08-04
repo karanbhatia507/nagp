@@ -1,11 +1,11 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT;
 
-const client = new MongoClient(process.env.DATABASE_URL, {
+const client = new MongoClient(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 10000,
@@ -13,7 +13,6 @@ const client = new MongoClient(process.env.DATABASE_URL, {
 
 app.get('/users', async (req, res) => {
   try {
-    // await client.connect();
     const result = await client.db("nagp").collection("nagp-collection").find({}).toArray();
     console.log(result);
     res.json(result);
@@ -24,7 +23,7 @@ app.get('/users', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Hello World! ' + ' from the API' + ' running on port ' + port + ' databse URL: ' + process.env.DATABASE_URL);
+  res.send('Hello World! ' + ' from the API' + ' running on port ' + port + ' databse URL: ' + process.env.MONGO_URI);
 });
 
 app.listen(port, async() => {
