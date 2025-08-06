@@ -3,6 +3,8 @@ const cors = require("cors");
 require("dotenv").config();
 const { connectToDB } = require("./db");
 const userRoutes = require("./routes/user");
+const { insertUsers } = require("./helper");
+const UserModel = require("./models/userModel");
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -32,6 +34,8 @@ app.get("/", (req, res) => {
 
 const server = app.listen(port, async () => {
   await connectToDB();
+  const users = await UserModel.findAll();
+  if (users.length < 1) await insertUsers();
   console.log(`Server running at http://localhost:${port}`);
 });
 

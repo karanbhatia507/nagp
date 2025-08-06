@@ -1,10 +1,12 @@
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
 
-const mongoUri = process.env.MONGO_URI;
+const { USERNAME, PASSWORD, MONGO_HOST, MONGO_PORT, MONGO_DB, MONGO_AUTH_SOURCE } = process.env;
 
-if (!mongoUri) {
-  console.error("MONGO_URI is not defined");
+const mongoUri = `mongodb://${USERNAME}:${PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}?authSource=${MONGO_AUTH_SOURCE}`
+
+if (!USERNAME || !PASSWORD || !MONGO_HOST || !MONGO_PORT || !MONGO_DB || !MONGO_AUTH_SOURCE) {
+  console.error("MONGO_URI cannot be constructed");
   process.exit(1);
 }
 
@@ -19,7 +21,7 @@ let db;
 
 async function connectToDB() {
   await client.connect();
-  db = client.db("nagp");
+  db = client.db(MONGO_DB);
   console.log("Connected to MongoDB");
 }
 

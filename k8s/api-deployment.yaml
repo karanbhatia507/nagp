@@ -14,12 +14,42 @@ spec:
     spec:
       containers:
         - name: service-api
-          image: karanbht/nagp-assignment
+          image: karanbht/nagp-assignment:v8
           ports:
             - containerPort: 8000
           env:
-            - name: MONGO_URI
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: username
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: password
+            - name: MONGO_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-configmap
+                  key: mongo-port
+            - name: MONGO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-configmap
+                  key: mongo-host
+            - name: MONGO_DB
+              valueFrom: 
+                configMapKeyRef:
+                  name: mongo-configmap
+                  key: mongo-db
+            - name: MONGO_AUTH_SOURCE
+              valueFrom: 
+                configMapKeyRef:
+                  name: mongo-configmap
+                  key: mongo-auth-source
+            - name: PORT
               valueFrom:
                 configMapKeyRef:
                   name: api-configmap
-                  key: mongo-uri
+                  key: port
